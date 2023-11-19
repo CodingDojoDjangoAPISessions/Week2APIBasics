@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!-- Example SOAP request XML from https://www.w3schools.com/xml/xml_soap.asp -->
+<soap:Envelope
+xmlns:soap="http://www.w3.org/2003/05/soap-envelope/"
+soap:encodingStyle="http://www.w3.org/2003/05/soap-encoding"> <!-- The envelope is the root element of the request-->
+
+<soap:Body xmlns:m="http://www.example.org/stock"> <!-- defining the namespace "m" -->
+  <m:GetStockPrice> <!-- Action -->
+    <m:StockName>IBM</m:StockName> <!--Fields-->
+  </m:GetStockPrice>
+</soap:Body>
+
+</soap:Envelope>
+

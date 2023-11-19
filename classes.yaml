@@ -1,0 +1,192 @@
+openapi: 3.0.0
+info:
+  title: D&D Classes API
+  version: 1.0.0
+servers:
+  - url: https://www.dnd5eapi.co
+    description: D&D 5e SRD Database
+paths:
+  /api/classes/{index}:
+    get:
+      summary: Get information about a specific class
+      parameters:
+        - in: path
+          name: index
+          required: true
+          schema:
+            type: string
+            enum: [barbarian, bard, cleric, druid, fighter, monk, paladin, ranger, rogue, sorcerer, warlock, wizard]
+          description: The index of the class (e.g., wizard, cleric)
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassInfo'
+        '404':
+          description: Class not found
+components:
+  schemas:
+    ClassInfo:
+      type: object
+      properties:
+        class_levels:
+          type: string
+        hit_die:
+          type: integer
+        index:
+          type: string
+        multi_classing:
+          $ref: '#/components/schemas/MultiClassing'
+        name:
+          type: string
+        proficiencies:
+          type: array
+          items:
+            $ref: '#/components/schemas/Proficiency'
+        proficiency_choices:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProficiencyChoice'
+        saving_throws:
+          type: array
+          items:
+            $ref: '#/components/schemas/AbilityScoreReference'
+        spellcasting:
+          $ref: '#/components/schemas/Spellcasting'
+        spells:
+          type: string
+        starting_equipment:
+          type: array
+          items:
+            $ref: '#/components/schemas/Equipment'
+        starting_equipment_options:
+          type: array
+          items:
+            $ref: '#/components/schemas/EquipmentOption'
+        subclasses:
+          type: array
+          items:
+            $ref: '#/components/schemas/Subclass'
+        url:
+          type: string
+    MultiClassing:
+      type: object
+      properties:
+        prerequisites:
+          type: array
+          items:
+            $ref: '#/components/schemas/Prerequisite'
+        proficiencies:
+          type: array
+          items:
+            type: string
+    Prerequisite:
+      type: object
+      properties:
+        ability_score:
+          $ref: '#/components/schemas/AbilityScoreReference'
+        minimum_score:
+          type: integer
+    AbilityScoreReference:
+      type: object
+      properties:
+        index:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+    Proficiency:
+      type: object
+      properties:
+        index:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+    ProficiencyChoice:
+      type: object
+      properties:
+        choose:
+          type: integer
+        desc:
+          type: string
+        from:
+          $ref: '#/components/schemas/OptionSet'
+        type:
+          type: string
+    OptionSet:
+      type: object
+      properties:
+        option_set_type:
+          type: string
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/Option'
+    Option:
+      type: object
+      properties:
+        item:
+          $ref: '#/components/schemas/Proficiency'
+        option_type:
+          type: string
+    Spellcasting:
+      type: object
+      properties:
+        info:
+          type: array
+          items:
+            $ref: '#/components/schemas/SpellInfo'
+        level:
+          type: integer
+        spellcasting_ability:
+          $ref: '#/components/schemas/AbilityScoreReference'
+    SpellInfo:
+      type: object
+      properties:
+        desc:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+    Equipment:
+      type: object
+      properties:
+        equipment:
+          $ref: '#/components/schemas/EquipmentItem'
+        quantity:
+          type: integer
+    EquipmentItem:
+      type: object
+      properties:
+        index:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
+    EquipmentOption:
+      type: object
+      properties:
+        choose:
+          type: integer
+        desc:
+          type: string
+        from:
+          $ref: '#/components/schemas/OptionSet'
+        type:
+          type: string
+    Subclass:
+      type: object
+      properties:
+        index:
+          type: string
+        name:
+          type: string
+        url:
+          type: string
